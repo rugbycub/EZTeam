@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  club_id: 
+  name: MyString
+  description: MyText
+
+two:
+  club_id: 
+  name: MyString
+  description: MyText

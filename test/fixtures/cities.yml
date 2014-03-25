@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  stateprovence_id: 
+  country_id: 
+
+two:
+  name: MyString
+  stateprovence_id: 
+  country_id: 

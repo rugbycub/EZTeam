@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group_id: 
+  group_type: Group
+  type: 
+  opponent: MyString
+  event_date: 2014-03-23
+  starting_time: 2014-03-23 16:59:52
+  ending_time: 2014-03-23 16:59:52
+  recurring: false
+  frequency: 1
+  timeframe: MyString
+  venue_id: 
+
+two:
+  group_id: 
+  group_type: Group
+  type: 
+  opponent: MyString
+  event_date: 2014-03-23
+  starting_time: 2014-03-23 16:59:52
+  ending_time: 2014-03-23 16:59:52
+  recurring: false
+  frequency: 1
+  timeframe: MyString
+  venue_id: 
