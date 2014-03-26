@@ -55,5 +55,5 @@ production:
   adapter: postgresql
   encoding: unicode
   database: ezteam
-  username: charlienuttall
+  username: postgres
   password: changeme
