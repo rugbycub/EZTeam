@@ -1,5 +1,6 @@
 # config valid only for Capistrano 3.1
 require "bundler/capistrano"
+require "rvm/capistrano"
 
 
 set :application, "ezteam"
@@ -10,12 +11,12 @@ set :repository, "git@github.com:rugbycub/EZTeam.git"
 set :branch, "master"
 set :use_sudo, true
 
-server "ezteam.cloudapp.net", :web, :app, :db, primary: true
+server "EZTeam.cloudapp.net", :web, :app, :db, primary: true
 
 set :deploy_to, "/home/#{user}/apps/#{application}"
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
-ssh_options[:port] = SSHPort
+ssh_options[:port] = "22"
 
 namespace :deploy do
   desc "Fix permissions"
