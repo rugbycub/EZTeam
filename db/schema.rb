@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324173628) do
+ActiveRecord::Schema.define(version: 20140326160533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,9 +83,10 @@ ActiveRecord::Schema.define(version: 20140324173628) do
   add_index "events", ["group_id", "group_type"], name: "index_events_on_group_id_and_group_type", using: :btree
   add_index "events", ["venue_id"], name: "index_events_on_venue_id", using: :btree
 
-  create_table "league", id: false, force: true do |t|
-    t.integer "id",               null: false
-    t.string  "name", limit: 100
+  create_table "leagues", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "notifications", force: true do |t|
@@ -164,13 +165,13 @@ ActiveRecord::Schema.define(version: 20140324173628) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "sport"
-    t.integer  "league"
+    t.integer  "sport_id"
+    t.integer  "league_id"
   end
 
   add_index "teams", ["club_id"], name: "index_teams_on_club_id", unique: true, using: :btree
-  add_index "teams", ["league"], name: "idx_teams_0", using: :btree
-  add_index "teams", ["sport"], name: "idx_teams", using: :btree
+  add_index "teams", ["league_id"], name: "pk_teams", using: :btree
+  add_index "teams", ["sport_id"], name: "idx_teams", using: :btree
 
   create_table "timezones", primary_key: "gmt_offset", force: true do |t|
     t.string   "name"
@@ -208,16 +209,28 @@ ActiveRecord::Schema.define(version: 20140324173628) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "users_events", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users_events", ["event_id"], name: "index_users_events_on_event_id", using: :btree
+  add_index "users_events", ["user_id"], name: "index_users_events_on_user_id", using: :btree
+
   create_table "users_roles", id: false, force: true do |t|
     t.integer "user_id"
     t.integer "role_id"
-    t.integer "team_id"
   end
 
-  add_index "users_roles", ["role_id"], name: "idx_users_roles_0", using: :btree
-  add_index "users_roles", ["team_id"], name: "index_users_roles_on_team_id", using: :btree
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
-  add_index "users_roles", ["user_id"], name: "idx_users_roles", using: :btree
+
+  create_table "users_teams", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "team_id"
+  end
 
   add_foreign_key "clubs", "timezones", name: "fk_clubs_timezones", column: "timezone", primary_key: "gmt_offset"
 
@@ -229,14 +242,11 @@ ActiveRecord::Schema.define(version: 20140324173628) do
 
   add_foreign_key "sports", "teams", name: "fk_sports", column: "id", primary_key: "club_id"
 
-  add_foreign_key "stateprovences", "countries", name: "fk_stateprovences_countries", primary_key: "country_code"
-
   add_foreign_key "teams", "clubs", name: "fk_teams_clubs"
-  add_foreign_key "teams", "league", name: "fk_teams_league", column: "league"
-  add_foreign_key "teams", "sports", name: "fk_teams_sports", column: "sport"
+  add_foreign_key "teams", "leagues", name: "fk_teams_leagues"
+  add_foreign_key "teams", "sports", name: "fk_teams_sports"
 
-  add_foreign_key "users_roles", "roles", name: "fk_users_roles_roles"
-  add_foreign_key "users_roles", "teams", name: "fk_users_roles_teams"
-  add_foreign_key "users_roles", "users", name: "fk_users_roles_users"
+  add_foreign_key "users_events", "events", name: "fk_users_events_events"
+  add_foreign_key "users_events", "users", name: "fk_users_events_users"
 
 end

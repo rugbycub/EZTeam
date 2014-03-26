@@ -1,8 +1,13 @@
 class User < ActiveRecord::Base
   has_many :clubs, :through => :teams
-  has_and_belongs_to_many :team , :join_table => :users_roles
+  has_many :users_teams
+  has_many :teams, through: :users_teams
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+  has_many :users_events
+  has_many :events, through: :users_events
+
+
   
 
   rolify
@@ -18,7 +23,6 @@ class User < ActiveRecord::Base
       user.provider = auth.provider
       user.uid = auth.uid
       user.email = auth.info.email
-      pry
     end
   end
 
