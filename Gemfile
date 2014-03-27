@@ -45,7 +45,7 @@ gem 'capistrano-rvm'
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
 gem 'net-ssh', '2.7.0'
-gem 'capistrano-nginx-unicorn', group: :development
+gem 'capistrano3-unicorn'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
