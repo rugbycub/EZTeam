@@ -40,8 +40,10 @@ end
 gem 'unicorn'
 
 # Use Capistrano for deployment
-gem 'capistrano', '~> 2.15.5'
-gem 'rvm-capistrano'
+gem 'capistrano', '~> 3.0.1'
+
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
 gem 'net-ssh', '2.7.0'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
