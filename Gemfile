@@ -41,7 +41,7 @@ gem 'unicorn'
 
 # Use Capistrano for deployment
 gem 'capistrano', '~> 3.0.1'
-
+gem 'capistrano-rvm'
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
 gem 'net-ssh', '2.7.0'

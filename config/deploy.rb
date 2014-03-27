@@ -1,16 +1,24 @@
 set :application, "ezteam"
-set :deploy_user, "ezteam"
+set :deploy_user, "deploy"
 
+# setup repo details
 set :scm, :git
-set :repo_url, 'git@github.com:rugbycub/EZTeam.git'
+set :repo_url, 'https://github.com/rugbycub/EZTeam.git'
+
+set :keep_releases, 1
+
 
 set :linked_files, %w{config/database.yml config/application.yml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+
+set :tests, []
+
+# which config files should be copied by deploy:setup_config
+
 set(:config_files, %w(
   nginx.conf
   application.yml
-  database.example.yml
+  database.yml
   log_rotation
   monit
   unicorn.rb
@@ -41,52 +49,12 @@ set(:symlinks, [
   }
 ])
 
-
-
-# set :deploy_to, '/var/www/my_app'
-# set :scm, :git
-
-# set :format, :pretty
-# set :log_level, :debug
-# set :pty, true
-
-# set :linked_files, %w{config/database.yml}
-# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
-
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
-# set :keep_releases, 5
-
 namespace :deploy do
-  
-  
-  
-  
+  # make sure we're deploying what we think we're deploying
+  before :deploy, "deploy:check_revision"
+  # only allow a deploy with passing tests to deployed
+  before :deploy, "deploy:run_tests"
   # compile assets locally then rsync
   after 'deploy:symlink:shared', 'deploy:compile_assets_locally'
   after :finishing, 'deploy:cleanup'
 end
-namespace :figaro do
-  desc "SCP transfer figaro configuration to the shared folder"
-  task :setup do
-    transfer :up, "config/application.yml", "#{shared_path}/application.yml", via: :scp
-  end
- 
-  desc "Symlink application.yml to the release path"
-  task :symlink do
-    run "ln -sf #{shared_path}/application.yml #{latest_release}/config/application.yml"
-  end
- 
-  desc "Check if figaro configuration file exists on the server"
-  task :check do
-    begin
-      run "test -f #{shared_path}/application.yml"
-    rescue Capistrano::CommandError
-      unless fetch(:force, false)
-        logger.important 'application.yml file does not exist on the server "shared/application.yml"'
-        exit
-      end
-    end
-  end
-end
-after "deploy:setup", "figaro:setup"
-after "deploy:create_symlink", "figaro:symlink"
