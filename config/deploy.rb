@@ -1,7 +1,7 @@
 # config valid only for Capistrano 3.1
 require "bundler/capistrano"
 require "rvm/capistrano"
-
+load "config/recipes/figaro"
 
 set :application, "ezteam"
 set :user, "ezteam"
