@@ -10,6 +10,8 @@ set :scm, :git
 set :repository, "git@github.com:rugbycub/EZTeam.git"
 set :branch, "master"
 set :use_sudo, true
+set :rails_env, "production"
+set :deploy_via, :copy
 
 server "EZTeam.cloudapp.net", :web, :app, :db, primary: true
 
@@ -39,7 +41,7 @@ namespace :deploy do
   after "deploy:setup", "deploy:setup_config"
 
   task :symlink_config, roles: :app do
-    # Add database config here
+
   end
   after "deploy:finalize_update", "deploy:fix_permissions"
   after "deploy:finalize_update", "deploy:symlink_config"
