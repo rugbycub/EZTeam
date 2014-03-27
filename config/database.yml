@@ -54,6 +54,6 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: deploy
+  database: ezteam_production
   username: deploy
-  password: changeme
+  password: md5727c7d83e6427f3d971924ec6acadb27
