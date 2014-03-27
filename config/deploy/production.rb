@@ -6,7 +6,8 @@ set :branch, "master"
 # at filepaths
 set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 
-server "EZTeam.cloudapp.net", user: 'deploy', roles: %w{web app db}, primary: true
+server "EZTeam.cloudapp.net", user: 'deploy', roles: %w{web app}, primary: true
+server "EZTeam.cloudapp.net", user: 'ezteam', roles: %w{db}, primary: true
 
 set :deploy_to, "/var/www/ezteam/"
 
