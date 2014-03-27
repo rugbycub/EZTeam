@@ -1,4 +1,5 @@
 class Club < ActiveRecord::Base
+  resourcify
   has_many :teams, :class_name => 'Team'
   has_many :events, as: :group
   has_many :users, through: :team

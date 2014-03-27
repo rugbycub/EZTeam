@@ -32,12 +32,12 @@ ActiveRecord::Schema.define(version: 20140326160533) do
     t.string   "country"
     t.string   "city"
     t.string   "state"
-    t.integer  "timezone"
+    t.string   "timezone",   limit: nil
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "clubs", ["timezone"], name: "idx_clubs_0", using: :btree
+  add_index "clubs", ["timezone"], name: "idx_clubs", using: :btree
 
   create_table "conversations", force: true do |t|
     t.string   "subject",    default: ""
@@ -173,10 +173,12 @@ ActiveRecord::Schema.define(version: 20140326160533) do
   add_index "teams", ["league_id"], name: "pk_teams", using: :btree
   add_index "teams", ["sport_id"], name: "idx_teams", using: :btree
 
-  create_table "timezones", primary_key: "gmt_offset", force: true do |t|
-    t.string   "name"
+  create_table "timezones", id: false, force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "id",         limit: 30, null: false
+    t.float    "gmt_offset"
+    t.float    "dst_offset"
   end
 
   create_table "users", force: true do |t|
@@ -232,7 +234,7 @@ ActiveRecord::Schema.define(version: 20140326160533) do
     t.integer "team_id"
   end
 
-  add_foreign_key "clubs", "timezones", name: "fk_clubs_timezones", column: "timezone", primary_key: "gmt_offset"
+  add_foreign_key "clubs", "timezones", name: "fk_clubs_timezones", column: "timezone"
 
   add_foreign_key "notifications", "conversations", name: "notifications_on_conversation_id"
 

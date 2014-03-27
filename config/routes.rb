@@ -11,9 +11,7 @@ Ezteam::Application.routes.draw do
     root to: "home#index"
   end
 
-  resources :club do
-    resources :user
-  end
+  resources :club
 
 
 

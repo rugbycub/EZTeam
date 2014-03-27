@@ -6,8 +6,16 @@ class User < ActiveRecord::Base
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
   has_many :users_events
   has_many :events, through: :users_events
+  has_and_belongs_to_many :roles
+   acts_as_messageable
 
-
+def mailboxer_email(message)
+    if self.email.nil?
+        email = self.first_name + " " + self.last_name
+    else
+        self.email
+    end
+end
   
 
   rolify
@@ -42,7 +50,9 @@ class User < ActiveRecord::Base
     super && provider.blank?
   end
 
-
+def make_admin(team)
+  self.add_role :team_admin, team
+end
 
 
 end
