@@ -55,6 +55,7 @@ production:
   adapter: postgresql
   encoding: unicode
   database: ezteam
-  username: deploy
+  username: ezteam
   password: changeme
+  server: EZTeam.cloudapp.net
   port: 5432
